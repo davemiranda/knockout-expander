@@ -20,10 +20,11 @@
     }
 }(function (ko) {
 
-    function ExpanderModel(element, config) {
+    function Expander(element, config) {
         var expander = this,
             $expander = $(element),
             $content = null,
+            $toggles = null,
             $expand = null,
             $collapse = null,
             expanded = false;
@@ -57,6 +58,7 @@
 
         function expand() {
             $expander.addClass('expanded').removeClass('collapsed');
+            $toggles.addClass('expanded').removeClass('collapsed');
             $expand.hide();
             $collapse.show();
             $content.stop(true, false).animate({
@@ -67,6 +69,7 @@
 
         function collapse(instant) {
             $expander.addClass('collapsed').removeClass('expanded');
+            $toggles.addClass('collapsed').removeClass('expanded');
             $collapse.hide();
             $expand.show();
             if (instant) {
@@ -90,7 +93,7 @@
          */
         expander.elementReady = function () {
             $content = $expander.find('[data-expander-content]').eq(0);
-            var $toggles = $expander.find('[data-expander-toggles]').eq(0);
+            $toggles = $expander.find('[data-expander-toggles]').eq(0);
             $expand = $toggles.find('[data-expander-expand]').eq(0);
             $collapse = $toggles.find('[data-expander-collapse]').eq(0);
             var $toggle = $toggles.find('[data-expander-toggle]').eq(0);
@@ -127,7 +130,7 @@
         init: function (element, valueAccessor) {
             var config = valueAccessor() || {};
 
-            var expander = new ExpanderModel(element, config);
+            var expander = new Expander(element, config);
 
             setTimeout(function () {
                 expander.elementReady && expander.elementReady();
