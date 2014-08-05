@@ -94,8 +94,7 @@
             $collapse = $toggles.find('[data-expander-collapse]').eq(0);
             var $toggle = $toggles.find('[data-expander-toggle]').eq(0);
 
-            $expander.addClass('expander');
-            $content.addClass('contents');
+            $content.css('overflow', 'hidden');
 
             if (element.offsetHeight > config.collapsedHeight) {
                 $content.css({'max-height': collapsedHeightPx});
