@@ -5,9 +5,22 @@
  Description: KnockoutJS binding for expanding and collapsing elements.
  ======================================================================*/
 
-(function () {
+(function (factory) {
+    // Module systems magic dance.  Thanks KO validation team!
 
-    function DefaultExpander(element, config) {
+    if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
+        // CommonJS or Node: hard-coded dependency on "knockout"
+        factory(require("knockout"), exports);
+    } else if (typeof define === "function" && define["amd"]) {
+        // AMD anonymous module with hard-coded dependency on "knockout"
+        define(["knockout", "exports"], factory);
+    } else {
+        // <script> tag: use the global 'ko' object, attaching a 'mapping' property
+        factory(ko);
+    }
+}(function (ko) {
+
+    function ExpanderModel(element, config) {
         var expander = this;
 
         config = $.extend(true, {
@@ -117,7 +130,7 @@
         init: function (element, valueAccessor) {
             var config = valueAccessor() || {};
 
-            var expander = new DefaultExpander(element, config);
+            var expander = new ExpanderModel(element, config);
 
             setTimeout(function () {
                 expander.elementReady && expander.elementReady();
@@ -125,4 +138,4 @@
         }
     };
 
-})();
+}));
