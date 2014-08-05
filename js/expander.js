@@ -1,3 +1,10 @@
+/*=====================================================================
+ Author: David Miranda - @davemiranda
+ License: MIT (http://opensource.org/licenses/mit-license.php)
+
+ Description: KnockoutJS binding for expanding and collapsing elements.
+ ======================================================================*/
+
 function DefaultExpander(element, config) {
     var expander = this;
 
