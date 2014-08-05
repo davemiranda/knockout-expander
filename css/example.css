@@ -1,0 +1,33 @@
+body {
+    padding-bottom: 300px;
+}
+
+.demo {
+    margin-top: 20px;
+    border: 2px solid #efefef;
+    padding: 20px;
+}
+
+
+.top10title {
+    background: #efefef;
+    padding: 20px;
+}
+
+.top10 {
+    display: inline-block;
+    float: none;
+    margin-left: -4px;
+    vertical-align: top;
+}
+
+code {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #efefef;
+    padding: 10px;
+}
+
+.call-out {
+    background: palegreen;
+}
