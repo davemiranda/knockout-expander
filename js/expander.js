@@ -21,7 +21,12 @@
 }(function (ko) {
 
     function ExpanderModel(element, config) {
-        var expander = this;
+        var expander = this,
+            $expander = $(element),
+            $content = null,
+            $expand = null,
+            $collapse = null,
+            expanded = false;
 
         config = $.extend(true, {
             name: '',
@@ -33,9 +38,6 @@
             }
         }, config);
 
-        var $expander = $(element);
-        var $content = null;
-
         if (config.template) {
             // Transclude the innerHTML of the expander element into the requested template's data-expander-content element.
             var innerHTML = element.innerHTML;
@@ -43,13 +45,8 @@
             $expander.find('[data-expander-content]').eq(0).html(innerHTML);
         }
 
-        var $expand = null;
-        var $collapse = null;
-
         var collapsedHeight = config.collapsedHeight;
         var collapsedHeightPx = collapsedHeight + 'px';
-
-        var expanded = false;
 
         var expandAnimate = $.extend({
             complete: function () {
