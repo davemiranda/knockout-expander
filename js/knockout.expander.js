@@ -35,7 +35,8 @@
             animate: {
                 animate: 'swing',
                 duration: 400
-            }
+            },
+            tolerance: 50
         }, config);
 
         if (config.template) {
@@ -96,7 +97,7 @@
 
             $content.css('overflow', 'hidden');
 
-            if (element.offsetHeight > config.collapsedHeight) {
+            if (element.offsetHeight > config.collapsedHeight + config.tolerance) {
                 $content.css({'max-height': collapsedHeightPx});
 
                 $expand.click(function (e) {
