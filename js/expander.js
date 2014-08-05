@@ -17,8 +17,7 @@
             animate: {
                 animate: 'swing',
                 duration: 400
-            },
-            data: {}
+            }
         }, config);
 
         var $expander = $(element);
