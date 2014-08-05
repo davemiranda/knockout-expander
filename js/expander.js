@@ -2,7 +2,7 @@
  Author: David Miranda - @davemiranda
  License: MIT (http://opensource.org/licenses/mit-license.php)
 
- Description: KnockoutJS binding for expanding and collapsing elements.
+ Description: KnockoutJS binding to expand and collapse elements.
  ======================================================================*/
 
 (function (factory) {
