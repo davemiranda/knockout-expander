@@ -100,7 +100,7 @@
 
             $content.css('overflow', 'hidden');
 
-            if (element.offsetHeight > config.collapsedHeight + config.tolerance) {
+            if ($content.outerHeight(true) > config.collapsedHeight + config.tolerance) {
                 $content.css({'max-height': collapsedHeightPx});
 
                 $expand.click(function (e) {

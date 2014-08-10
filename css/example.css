@@ -3,7 +3,7 @@ body {
 }
 
 .demo {
-    margin-top: 20px;
+    margin: 0 0 20px 0;
     border: 2px solid #efefef;
     padding: 20px;
 }
@@ -19,13 +19,6 @@ body {
     float: none;
     margin-left: -4px;
     vertical-align: top;
-}
-
-code {
-    display: block;
-    margin-bottom: 10px;
-    background-color: #efefef;
-    padding: 10px;
 }
 
 .call-out {

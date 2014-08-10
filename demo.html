@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<h2>Expand and Collapse controls</h2>
+<h2>Expand and collapse controls</h2>
 
 <p>
     The expander binding will:
@@ -78,6 +78,8 @@
 
 <h2>Setting collapsed height</h2>
 
+<p>Use <span class="call-out">collapsedHeight</span> to specify how tall the content should be when in a collapsed state.</p>
+
 <pre>
 &lt;div data-bind=&quot;expander: {collapsedHeight: 150}&quot;&gt;
     ...
@@ -94,6 +96,79 @@
     </div>
 </div>
 
+<p>If the content is shorter than the collapsedHeight, the toggles do not show.</p>
+
+<pre>
+&lt;div data-bind=&quot;expander: {collapsedHeight: 150}&quot;&gt;
+    I'm small enough to fit and don't need toggles!
+&lt;/div&gt;
+</pre>
+
+<div class="demo" data-bind="expander: {collapsedHeight: 150}">
+    <div data-expander-content>
+        I'm small enough to fit and don't need toggles!
+    </div>
+    <div data-expander-toggles>
+        <a href="#" data-expander-expand>Expand</a>
+        <a href="#" data-expander-collapse>Collapse</a>
+    </div>
+</div>
+
+<h3>Tolerance</h3>
+
+<p>Tolerance is the number of pixels that the content height must exceed beyond collapsedHeight before toggles show.  This is useful to prevent the toggles from showing just because the content is a few pixels taller than collapsedHeight and clicking the expand link wouldn't reveal anything useful.</p>
+
+<p>By default, tolerance is 50 pixels, but you can override that to whatever you want.</p>
+
+<p>In the examples below, the content height is 100 pixels and collapsedHeight is set to 95. With default tolerance, the toggles do not show because the content is less than 50 pixels over collapsedHeight; with zero tolerance, the toggles show and clicking them simply reveals the hidden 5 pixels of white space.</p>
+
+<div class="row">
+    <div class="col-xs-6">
+        <h4>Default tolerance</h4>
+<pre>
+&lt;div data-bind=&quot;expander: {collapsedHeight: 95}&quot;&gt;
+    ...
+&lt;/div&gt;
+</pre>
+        <div class="demo" data-bind="expander: {collapsedHeight: 95, name: 'foobar'}">
+            <div data-expander-content>
+                A<br>
+                B<br>
+                C<br>
+                D<br>
+                E<br>
+            </div>
+            <div data-expander-toggles>
+                <a href="#" data-expander-expand>Expand</a>
+                <a href="#" data-expander-collapse>Collapse</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <h4>Zero tolerance</h4>
+<pre>
+&lt;div data-bind=&quot;expander: {collapsedHeight: 95, <span class="call-out">tolerance: 0</span>}&quot;&gt;
+    ...
+&lt;/div&gt;
+</pre>
+        <div class="demo" data-bind="expander: {collapsedHeight: 95, tolerance: 0, name: 'foobar'}">
+            <div data-expander-content>
+                A<br>
+                B<br>
+                C<br>
+                D<br>
+                E<br>
+            </div>
+            <div data-expander-toggles>
+                <a href="#" data-expander-expand>Expand</a>
+                <a href="#" data-expander-collapse>Collapse</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h4>Higher tolerance</h4>
+    </div>
+</div>
 
 <h2>Setting animation</h2>
 
