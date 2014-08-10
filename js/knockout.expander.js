@@ -27,9 +27,11 @@
             $toggles = null,
             $expand = null,
             $collapse = null,
-            expanded = false;
+            expanded = false,
+            collapsedHeight = null,
+            collapsedHeightPx = null;
 
-        config = $.extend(true, {
+        var defaults = {
             name: '',
             template: null,
             collapsedHeight: 0,
@@ -38,7 +40,9 @@
                 duration: 400
             },
             tolerance: 50
-        }, config);
+        };
+
+        config = $.extend(true, defaults, config);
 
         if (config.template) {
             // Transclude the innerHTML of the expander element into the requested template's data-expander-content element.
@@ -46,9 +50,6 @@
             $expander.html($('#' + config.template).html());
             $expander.find('[data-expander-content]').eq(0).html(innerHTML);
         }
-
-        var collapsedHeight = config.collapsedHeight;
-        var collapsedHeightPx = collapsedHeight + 'px';
 
         var expandAnimate = $.extend({
             complete: function () {
@@ -100,7 +101,16 @@
 
             $content.css('overflow', 'hidden');
 
-            if ($content.outerHeight(true) > config.collapsedHeight + config.tolerance) {
+            if (isNaN(config.collapsedHeight)) {
+                var position = $content.find(config.collapsedHeight).eq(0).position();
+                collapsedHeight = position ? position.top : Number.MAX_VALUE;
+            } else {
+                collapsedHeight = config.collapsedHeight;
+            }
+
+            collapsedHeightPx = collapsedHeight + 'px';
+
+            if ($content.outerHeight(true) > collapsedHeight + config.tolerance) {
                 $content.css({'max-height': collapsedHeightPx});
 
                 $expand.click(function (e) {

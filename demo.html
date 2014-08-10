@@ -21,7 +21,8 @@
 <p>
     The expander binding will:
 <ul>
-    <li>expand and collapse the contents of the <span class="call-out">data-expander-collapse</span> flagged element</li>
+    <li>expand and collapse the contents of the <span class="call-out">data-expander-collapse</span> flagged element
+    </li>
     <li>bind the toggle click event to the <span class="call-out">data-expander-toggle</span> flagged element</li>
 </ul>
 
@@ -51,7 +52,8 @@
     The expander binding will:
 <ul>
     <li>bind the expand click event to the <span class="call-out">data-expander-expand</span> flagged element</li>
-    <li>bind the collapse click event to the <span class="call-out">data-expander-collapse</span> flagged element</li>
+    <li>bind the collapse click event to the <span class="call-out">data-expander-collapse</span> flagged element
+    </li>
 </ul>
 
 <pre>
@@ -76,12 +78,12 @@
     </div>
 </div>
 
-<h2>Setting collapsed height</h2>
+<h2>Collapsed height</h2>
 
-<p>Use <span class="call-out">collapsedHeight</span> to specify how tall the content should be when in a collapsed state.</p>
+<p>Use collapsedHeight to specify how tall the content should be when in a collapsed state.</p>
 
 <pre>
-&lt;div data-bind=&quot;expander: {collapsedHeight: 150}&quot;&gt;
+&lt;div data-bind=&quot;expander: {<span class="call-out">collapsedHeight: 150</span>}&quot;&gt;
     ...
 &lt;/div&gt;
 </pre>
@@ -114,16 +116,110 @@
     </div>
 </div>
 
-<h3>Tolerance</h3>
+<h3>Collapsing to an element</h3>
 
-<p>Tolerance is the number of pixels that the content height must exceed beyond collapsedHeight before toggles show.  This is useful to prevent the toggles from showing just because the content is a few pixels taller than collapsedHeight and clicking the expand link wouldn't reveal anything useful.</p>
+<p>Instead of a fixed pixel height, you can also set the collapsed height to the top of an element inside the
+    content.
+    This is useful if you want to ensure that an entire element is visible and not partially cut-off.</p>
+
+<p>If the element is not found, the entire content will display without toggles.</p>
+
+<div class="row">
+    <div class="col-sm-6">
+        <h4>Element found</h4>
+<pre>
+&lt;div data-bind=&quot;expander: {collapsedHeight: <span class="call-out">'li:nth-of-type(6)'</span>}&quot;&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Eggs&lt;/li&gt;
+        &lt;li&gt;Bananas&lt;/li&gt;
+        &lt;li&gt;Corn dogs&lt;/li&gt;
+        &lt;li&gt;Flour&lt;/li&gt;
+        &lt;li&gt;Peaches&lt;/li&gt;
+        &lt;li&gt;Butter&lt;/li&gt;
+        &lt;li&gt;Raisins&lt;/li&gt;
+        &lt;li&gt;Watermelon&lt;/li&gt;
+        &lt;li&gt;Soy sauce&lt;/li&gt;
+        &lt;li&gt;Mushrooms&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+        <div class="demo" data-bind="expander: {collapsedHeight: 'li:nth-of-type(6)'}">
+            <div data-expander-content style="position: relative">
+                <ul>
+                    <li>Eggs</li>
+                    <li>Bananas</li>
+                    <li>Corn dogs</li>
+                    <li>Flour</li>
+                    <li>Peaches</li>
+                    <li>Butter</li>
+                    <li>Raisins</li>
+                    <li>Watermelon</li>
+                    <li>Soy sauce</li>
+                    <li>Mushrooms</li>
+                </ul>
+            </div>
+            <div data-expander-toggles>
+                <a href="#" data-expander-expand>Expand</a>
+                <a href="#" data-expander-collapse>Collapse</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <h4>Element not found</h4>
+<pre>
+&lt;div data-bind=&quot;expander: {collapsedHeight: <span class="call-out">'li:nth-of-type(15)'</span>}&quot;&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Eggs&lt;/li&gt;
+        &lt;li&gt;Bananas&lt;/li&gt;
+        &lt;li&gt;Corn dogs&lt;/li&gt;
+        &lt;li&gt;Flour&lt;/li&gt;
+        &lt;li&gt;Peaches&lt;/li&gt;
+        &lt;li&gt;Butter&lt;/li&gt;
+        &lt;li&gt;Raisins&lt;/li&gt;
+        &lt;li&gt;Watermelon&lt;/li&gt;
+        &lt;li&gt;Soy sauce&lt;/li&gt;
+        &lt;li&gt;Mushrooms&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+        <div class="demo" data-bind="expander: {collapsedHeight: 'li:nth-of-type(15)'}">
+            <div data-expander-content style="position: relative">
+                <ul>
+                    <li>Eggs</li>
+                    <li>Bananas</li>
+                    <li>Corn dogs</li>
+                    <li>Flour</li>
+                    <li>Peaches</li>
+                    <li>Butter</li>
+                    <li>Raisins</li>
+                    <li>Watermelon</li>
+                    <li>Soy sauce</li>
+                    <li>Mushrooms</li>
+                </ul>
+            </div>
+            <div data-expander-toggles>
+                <a href="#" data-expander-expand>Expand</a>
+                <a href="#" data-expander-collapse>Collapse</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h3>tolerance</h3>
+
+<p>Tolerance is the number of pixels that the content height must exceed beyond collapsedHeight before toggles show.
+    This is useful to prevent the toggles from showing just because the content is a few pixels taller than
+    collapsedHeight and clicking the expand link wouldn't reveal anything useful.</p>
 
 <p>By default, tolerance is 50 pixels, but you can override that to whatever you want.</p>
 
-<p>In the examples below, the content height is 100 pixels and collapsedHeight is set to 95. With default tolerance, the toggles do not show because the content is less than 50 pixels over collapsedHeight; with zero tolerance, the toggles show and clicking them simply reveals the hidden 5 pixels of white space.</p>
+<p>In the examples below, the content height is 100 pixels and collapsedHeight is set to 95. With default tolerance, the
+    toggles do not show because the content is less than 50 pixels over collapsedHeight; with zero tolerance, the
+    toggles show and clicking them simply reveals the hidden 5 pixels of white space.</p>
 
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-sm-6">
         <h4>Default tolerance</h4>
 <pre>
 &lt;div data-bind=&quot;expander: {collapsedHeight: 95}&quot;&gt;
@@ -144,7 +240,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-sm-6">
         <h4>Zero tolerance</h4>
 <pre>
 &lt;div data-bind=&quot;expander: {collapsedHeight: 95, <span class="call-out">tolerance: 0</span>}&quot;&gt;
@@ -165,12 +261,9 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <h4>Higher tolerance</h4>
-    </div>
 </div>
 
-<h2>Setting animation</h2>
+<h2>Animation</h2>
 
 <pre>
 &lt;div class=&quot;demo&quot; data-bind=&quot;expander: {animate: { duration: 1000, easing: 'easeOutBounce'}}&quot;&gt;
@@ -194,8 +287,10 @@
     You can specify a custom expander template by using the &quot;template&quot; parameter.</p>
 
 <p>
-    The expander binding will transclude the contents of the expander element into the template content, inside <span class="call-out">data-expander-content</span> tagged element.
+    The expander binding will transclude the contents of the expander element into the template content, inside <span
+        class="call-out">data-expander-content</span> tagged element.
 </p>
+
 <p>For instance:
 </p>
 <pre>
