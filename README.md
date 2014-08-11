@@ -8,8 +8,8 @@ License [MIT](http://opensource.org/licenses/mit-license.php)
 Requirements
 ------------
 
-* KnockoutJS 3
-* jQuery 1.6
+* KnockoutJS 3 or later
+* jQuery 1.6 or later
 
 Examples
 --------
