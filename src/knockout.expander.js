@@ -39,7 +39,8 @@
                 animate: 'swing',
                 duration: 400
             },
-            tolerance: 50
+            tolerance: 50,
+            accordion: ko.observable(null)
         };
 
         config = $.extend(true, defaults, config);
@@ -66,6 +67,7 @@
                 'max-height': $content[0].scrollHeight + 'px'
             }, expandAnimate);
             expanded = true;
+            config.accordion(expander);
         }
 
         function collapse(instant) {
@@ -73,7 +75,7 @@
             $toggles.addClass('collapsed').removeClass('expanded');
             $collapse.hide();
             $expand.show();
-            if (instant) {
+            if (instant || !expanded) {
                 $content.css('max-height', collapsedHeightPx);
             } else {
                 $content.css('max-height', $content[0].scrollHeight + 'px');
@@ -91,6 +93,12 @@
                 expand();
             }
         }
+
+        config.accordion.subscribe(function(expanded) {
+            if (expanded !== null && expanded !== expander) {
+                collapse();
+            }
+        });
 
         /**
          * Called after Knockout renders this element and its contents.  Allows for binding
