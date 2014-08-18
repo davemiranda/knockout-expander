@@ -1,0 +1,10 @@
+{
+    "sub": true,
+    "globals": {
+        "$": true,
+        "ko": true,
+        "require": true,
+        "define": true,
+        "exports": true
+    }
+}

@@ -85,7 +85,11 @@
         }
 
         function toggle() {
-            expanded ? collapse() : expand();
+            if (expanded) {
+                collapse();
+            } else {
+                expand();
+            }
         }
 
         /**
@@ -143,7 +147,9 @@
             var expander = new Expander(element, config);
 
             setTimeout(function () {
-                expander.elementReady && expander.elementReady();
+                if (expander.elementReady) {
+                    expander.elementReady();
+                }
             }, 1);
         }
     };

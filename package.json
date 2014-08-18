@@ -1,0 +1,27 @@
+{
+    "name": "knockout.expander",
+    "version": "0.0.1",
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-cli": "~0.1.9",
+        "grunt-contrib-uglify": "~0.5.0",
+        "grunt-contrib-jshint": "~0.10.0"
+    },
+    "description": "KnockoutJS binding to expand and collapse elements.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/davemiranda/knockout-expander.git"
+    },
+    "keywords": [
+        "knockout",
+        "expander",
+        "expand",
+        "collapse",
+        "binding"
+    ],
+    "author": "@davemiranda",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/davemiranda/knockout-expander/issues"
+    }
+}
