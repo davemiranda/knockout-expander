@@ -19,12 +19,12 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    "dist/<%= pkg.name %>.min.js": ["js/<%= pkg.name %>.js"]
+                    "dist/<%= pkg.name %>.min.js": ["src/<%= pkg.name %>.js"]
                 }
             }
         },
         jshint: {
-            files: ["js/knockout.expander.js"],
+            files: ["src/*.js"],
             options: grunt.file.readJSON(".jshintrc")
         }
     });
