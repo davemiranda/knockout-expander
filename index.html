@@ -16,6 +16,110 @@
 
 <div class="container">
 
+<h2>expanded</h2>
+
+<p>Determines if the contents initially show expanded or collapsed. If true, the contents will initially show expanded;
+    if false, the contents initially show collapsed.</p>
+
+<p>Accepts booleans and Knockout observable booleans. Passing a Knockout observable boolean is preferable if you want to
+    be able to control expand and collapse actions by that observable.</p>
+
+<div class="row">
+    <div class="col-sm-6">
+<pre>
+&lt;div data-bind=&quot;expander: {<span class="call-out">expanded: true}</span>&quot;&gt;
+    ...
+&lt;/div&gt;
+</pre>
+        <div class="demo">
+            <div data-bind="expander: {expanded: true}">
+                <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+<pre>
+&lt;div data-bind=&quot;expander: {<span class="call-out">expanded: false</span>}&quot;&gt;
+    ...
+&lt;/div&gt;
+</pre>
+        <div class="demo">
+            <div data-bind="expander: {expanded: false}">
+                <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>expanded as an observable</h3>
+
+<p>If you use Knockout observable boolean for the expanded property, then you can control expand and collapse actions by that observable.</p>
+
+<p>The expander listens for changes to the expander observable. When set to true, it will expand; when set to false, it will collapse.</p>
+
+<pre>
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var viewModel = {
+        <span class="call-out">expanded</span>: ko.observable(false),
+        expand: function () {
+            this.expanded(true);
+        },
+        collapse: function () {
+            this.expanded(false);
+        }
+    };
+
+    ko.applyBindings(viewModel);
+&lt;/script&gt;
+</pre>
+
+<pre>
+&lt;div data-bind=&quot;expander: {expanded: <span class="call-out">expanded</span>}&quot;&gt;
+    ...
+&lt;/div&gt;
+&lt;a href=&quot;#&quot; data-bind=&quot;click: expand, visible: !expanded()&quot;&gt;Expand&lt;/a&gt;
+&lt;a href=&quot;#&quot; data-bind=&quot;click: collapse, visible: expanded()&quot;&gt;Collapse&lt;/a&gt;
+</pre>
+
+<div class="demo" data-bind="with: expandedExample">
+    <div data-bind="expander: {expanded: expanded}">
+        <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
+    </div>
+    <a href="#" data-bind="click: expand, visible: !expanded()">Expand</a>
+    <a href="#" data-bind="click: collapse, visible: expanded()">Collapse</a>
+</div>
+
+<h3>expander extender</h3>
+
+<p>You can use the expander extender to add the &quot;expanded&quot; field and &quot;expand&quot;, &quot;collapse&quot;, and &quot;toggle&quot; functions to your view model.</p>
+<p>Pass true to initially expand the content; false to initially collapse the content.</p>
+
+<pre>
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var viewModel = ko.observable({})<span class="call-out">.extend({expander: false})</span>;
+
+    ko.applyBindings(viewModel);
+&lt;/script&gt;
+</pre>
+
+<pre>
+&lt;div class=&quot;demo&quot; data-bind=&quot;with: extenderExample&quot;&gt;
+    &lt;div data-bind=&quot;expander: {expanded: expanded}&quot;&gt;
+        ...
+    &lt;/div&gt;
+    &lt;a href=&quot;#&quot; data-bind=&quot;click: expand, visible: !expanded()&quot;&gt;Expand&lt;/a&gt;
+    &lt;a href=&quot;#&quot; data-bind=&quot;click: collapse, visible: expanded()&quot;&gt;Collapse&lt;/a&gt;
+&lt;/div&gt;
+</pre>
+
+<div class="demo" data-bind="with: extenderExample">
+    <div data-bind="expander: {expanded: expanded}">
+        <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
+    </div>
+    <a href="#" data-bind="click: expand, visible: !expanded()">Expand</a>
+    <a href="#" data-bind="click: collapse, visible: expanded()">Collapse</a>
+</div>
+
 <h2>Toggle control</h2>
 
 <p>
@@ -78,7 +182,7 @@
     </div>
 </div>
 
-<h2>Collapsed height</h2>
+<h2>collapsedHeight</h2>
 
 <p>Use collapsedHeight to specify how tall the content should be when in a collapsed state.</p>
 
@@ -88,7 +192,7 @@
 &lt;/div&gt;
 </pre>
 
-<div class="demo" data-bind="expander: {collapsedHeight: 150, expanded: expanded}">
+<div class="demo" data-bind="expander: {collapsedHeight: 150}">
     <div data-expander-content>
         <div data-bind="template: 'tmpl-example-contents'"></div>
     </div>
@@ -263,7 +367,11 @@
     </div>
 </div>
 
-<h2>Animation</h2>
+<h2>animate</h2>
+
+<p>Sets the expand and collapse animation. Uses jQuery animations. Include jQuery UI for more advanced animations.</p>
+
+<p>By default, animation is &quot;swing&quot; at 400ms.</p>
 
 <pre>
 &lt;div class=&quot;demo&quot; data-bind=&quot;expander: {animate: { duration: 1000, easing: 'easeOutBounce'}}&quot;&gt;
@@ -271,7 +379,7 @@
 &lt;/div&gt;
 </pre>
 
-<div class="demo" data-bind="expander: {collapsedHeight: 150, animate: { duration: 1000, easing: 'easeOutBounce'}}">
+<div class="demo" data-bind="expander: {collapsedHeight: 60, animate: { duration: 1000, easing: 'easeOutBounce'}}">
     <div data-expander-content>
         <div data-bind="template: 'tmpl-example-contents'"></div>
     </div>
@@ -281,15 +389,11 @@
     </div>
 </div>
 
-<h2>Custom templates</h2>
+<h2>template</h2>
 
-<p>
-    You can specify a custom expander template by using the &quot;template&quot; parameter.</p>
+<p>Specifies a custom expander template.</p>
 
-<p>
-    The expander binding will transclude the contents of the expander element into the template content, inside <span
-        class="call-out">data-expander-content</span> tagged element.
-</p>
+<p>The expander binding will transclude the contents of the expander element into the template content, inside <span class="call-out">data-expander-content</span> tagged element.</p>
 
 <p>For instance:
 </p>
@@ -480,7 +584,9 @@
 
 <h2>Accordion</h2>
 
-<p>Use the accordion parameter to group expanders into an accordion. When one expander is expanded, the others will collapse.</p>
+<p>Use the accordion parameter to group expanders into an accordion. When one expander is expanded, the others will
+    collapse.</p>
+
 <p>The accordion value should be an empty Knockout observable.</p>
 
 <pre>
@@ -589,26 +695,22 @@
         Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this is a really
         big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this
         is a really big element!</p>
-    <p>Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this is a
-        really big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy,
-        this is a really big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element!
-        Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this is a really
-        big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this
-        is a really big element!</p>
-    <p style="color: red">Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy,
-        this is a
-        really big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy,
-        this is a really big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element!
-        Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this is a really
-        big element! Boy howdy, this is a really big element! Boy howdy, this is a really big element! Boy howdy, this
-        is a really big element!</p>
 </script>
 
 
 <script type="text/javascript">
     ko.applyBindings({
         myAccordion: ko.observable(),
-        expanded: ko.observable(false)
+        expandedExample: {
+            expanded: ko.observable(false),
+            expand: function () {
+                this.expanded(true);
+            },
+            collapse: function () {
+                this.expanded(false);
+            }
+        },
+        extenderExample: ko.observable({}).extend({expander: false})
     });
 </script>
 

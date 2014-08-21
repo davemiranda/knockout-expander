@@ -46,6 +46,10 @@
 
         config = $.extend(true, defaults, config);
 
+        if (!ko.isObservable(config.expanded)) {
+            config.expanded = ko.observable(config.expanded);
+        }
+
         var expandAnimate = $.extend({
             complete: function () {
                 $content.css('max-height', 'none');
@@ -108,7 +112,8 @@
          * to child elements not present until after Knockout evaluates.
          */
         expander.elementReady = function () {
-            $content = $expander.find('[data-expander-content]').eq(0);
+            var $contents = $expander.find('[data-expander-content]');
+            $content = $contents.length > 0 ? $contents.eq(0) : $expander;
             $toggles = $expander.find('[data-expander-toggles]').eq(0);
             $expand = $toggles.find('[data-expander-expand]').eq(0);
             $collapse = $toggles.find('[data-expander-collapse]').eq(0);
@@ -171,4 +176,21 @@
         }
     };
 
+    ko.extenders.expander = function (target, expanded) {
+
+        var unwrapped = target();
+
+        unwrapped.expanded = ko.observable(!!expanded);
+        unwrapped.expand = function() {
+            unwrapped.expanded(true);
+        };
+        unwrapped.collapse = function() {
+            unwrapped.expanded(false);
+        };
+        unwrapped.toggle = function() {
+            unwrapped.expanded(!unwrapped.expanded());
+        };
+
+        return target;
+    }
 }));
