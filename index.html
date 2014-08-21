@@ -88,7 +88,7 @@
 &lt;/div&gt;
 </pre>
 
-<div class="demo" data-bind="expander: {collapsedHeight: 150}">
+<div class="demo" data-bind="expander: {collapsedHeight: 150, expanded: expanded}">
     <div data-expander-content>
         <div data-bind="template: 'tmpl-example-contents'"></div>
     </div>
@@ -606,8 +606,11 @@
 
 
 <script type="text/javascript">
+    var expanded = window.expanded = ko.observable(false);
+
     ko.applyBindings({
-        myAccordion: ko.observable()
+        myAccordion: ko.observable(),
+        expanded: expanded
     });
 </script>
 

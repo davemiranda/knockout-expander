@@ -40,7 +40,8 @@
                 duration: 400
             },
             tolerance: 50,
-            accordion: ko.observable(null)
+            accordion: ko.observable(null),
+            expanded: ko.observable(false)
         };
 
         config = $.extend(true, defaults, config);
@@ -66,7 +67,6 @@
             $content.stop(true, false).animate({
                 'max-height': $content[0].scrollHeight + 'px'
             }, expandAnimate);
-            expanded = true;
             config.accordion(expander);
         }
 
@@ -75,7 +75,7 @@
             $toggles.addClass('collapsed').removeClass('expanded');
             $collapse.hide();
             $expand.show();
-            if (instant || !expanded) {
+            if (instant) {
                 $content.css('max-height', collapsedHeightPx);
             } else {
                 $content.css('max-height', $content[0].scrollHeight + 'px');
@@ -83,19 +83,18 @@
                     'max-height': collapsedHeightPx
                 }, config.animate);
             }
-            expanded = false;
-        }
-
-        function toggle() {
-            if (expanded) {
-                collapse();
-            } else {
-                expand();
-            }
         }
 
         config.accordion.subscribe(function(expanded) {
-            if (expanded !== null && expanded !== expander) {
+            if (expanded !== null && expanded !== expander && config.expanded()) {
+                config.expanded(false);
+            }
+        });
+
+        config.expanded.subscribe(function(newlyExpanded) {
+            if (newlyExpanded) {
+                expand();
+            } else {
                 collapse();
             }
         });
@@ -127,17 +126,17 @@
 
                 $expand.click(function (e) {
                     e.preventDefault();
-                    expand();
+                    config.expanded(true);
                 });
 
                 $collapse.click(function (e) {
                     e.preventDefault();
-                    collapse();
+                    config.expanded(false);
                 });
 
                 $toggle.click(function (e) {
                     e.preventDefault();
-                    toggle();
+                    config.expanded(!config.expanded());
                 });
 
                 collapse(true);
