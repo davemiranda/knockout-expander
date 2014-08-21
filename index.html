@@ -606,11 +606,9 @@
 
 
 <script type="text/javascript">
-    var expanded = window.expanded = ko.observable(false);
-
     ko.applyBindings({
         myAccordion: ko.observable(),
-        expanded: expanded
+        expanded: ko.observable(false)
     });
 </script>
 

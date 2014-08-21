@@ -46,43 +46,47 @@
 
         config = $.extend(true, defaults, config);
 
-        if (config.template) {
-            // Transclude the innerHTML of the expander element into the requested template's data-expander-content element.
-            var innerHTML = element.innerHTML;
-            $expander.html($('#' + config.template).html());
-            $expander.find('[data-expander-content]').eq(0).html(innerHTML);
-        }
-
         var expandAnimate = $.extend({
             complete: function () {
                 $content.css('max-height', 'none');
             }
         }, config.animate);
 
-        function expand() {
+        function setExpandedStyles() {
             $expander.addClass('expanded').removeClass('collapsed');
             $toggles.addClass('expanded').removeClass('collapsed');
             $expand.hide();
             $collapse.show();
+        }
+
+        function setCollapsedStyles() {
+            $expander.addClass('collapsed').removeClass('expanded');
+            $toggles.addClass('collapsed').removeClass('expanded');
+            $collapse.hide();
+            $expand.show();
+        }
+
+        function expand() {
+            setExpandedStyles();
             $content.stop(true, false).animate({
                 'max-height': $content[0].scrollHeight + 'px'
             }, expandAnimate);
             config.accordion(expander);
         }
 
-        function collapse(instant) {
-            $expander.addClass('collapsed').removeClass('expanded');
-            $toggles.addClass('collapsed').removeClass('expanded');
-            $collapse.hide();
-            $expand.show();
-            if (instant) {
-                $content.css('max-height', collapsedHeightPx);
-            } else {
-                $content.css('max-height', $content[0].scrollHeight + 'px');
-                $content.stop(true, false).animate({
-                    'max-height': collapsedHeightPx
-                }, config.animate);
-            }
+        function collapse() {
+            setCollapsedStyles();
+            $content.css('max-height', $content[0].scrollHeight + 'px');
+            $content.stop(true, false).animate({
+                'max-height': collapsedHeightPx
+            }, config.animate);
+        }
+
+        if (config.template) {
+            // Transclude the innerHTML of the expander element into the requested template's data-expander-content element.
+            var innerHTML = element.innerHTML;
+            $expander.html($('#' + config.template).html());
+            $expander.find('[data-expander-content]').eq(0).html(innerHTML);
         }
 
         config.accordion.subscribe(function(expanded) {
@@ -110,20 +114,19 @@
             $collapse = $toggles.find('[data-expander-collapse]').eq(0);
             var $toggle = $toggles.find('[data-expander-toggle]').eq(0);
 
-            $content.css('overflow', 'hidden');
-
+            // calculate collapsedHeight
             if (isNaN(config.collapsedHeight)) {
                 var position = $content.find(config.collapsedHeight).eq(0).position();
                 collapsedHeight = position ? position.top : Number.MAX_VALUE;
             } else {
                 collapsedHeight = config.collapsedHeight;
             }
-
             collapsedHeightPx = collapsedHeight + 'px';
 
+            // if content needs an expander...
             if ($content.outerHeight(true) > collapsedHeight + config.tolerance) {
-                $content.css({'max-height': collapsedHeightPx});
 
+                // bind click events
                 $expand.click(function (e) {
                     e.preventDefault();
                     config.expanded(true);
@@ -139,8 +142,15 @@
                     config.expanded(!config.expanded());
                 });
 
-                collapse(true);
+                // set initial CSS
+                $content.css('overflow', 'hidden');
 
+                if (config.expanded()) {
+                    setExpandedStyles();
+                } else {
+                    setCollapsedStyles();
+                    $content.css('max-height', collapsedHeightPx);
+                }
             } else {
                 $toggles.hide();
             }
