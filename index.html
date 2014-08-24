@@ -16,163 +16,64 @@
 
 <div class="container">
 
-<h2>expanded</h2>
+<h2>accordion</h2>
 
-<p>Determines if the contents initially show expanded or collapsed. If true, the contents will initially show expanded;
-    if false, the contents initially show collapsed.</p>
+<p>Use the accordion parameter to group expanders into an accordion. When one expander is expanded, the others will
+    collapse.</p>
 
-<p>Accepts booleans and Knockout observable booleans. Passing a Knockout observable boolean is preferable if you want to
-    be able to control expand and collapse actions by that observable.</p>
+<p>The accordion value should be an empty Knockout observable.</p>
+
+<pre>
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div data-bind=&quot;expander: <span class="call-out">{accordion: myAccordion}</span>&quot;&gt;
+       ...
+    &lt;/div&gt;
+    &lt;div data-bind=&quot;expander: <span class="call-out">{accordion: myAccordion}</span>&quot;&gt;
+       ...
+    &lt;/div&gt;
+    &lt;div data-bind=&quot;expander: <span class="call-out">{accordion: myAccordion}</span>&quot;&gt;
+       ...
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 
 <div class="row">
-    <div class="col-sm-6">
-<pre>
-&lt;div data-bind=&quot;expander: {<span class="call-out">expanded: true}</span>&quot;&gt;
-    ...
-&lt;/div&gt;
-</pre>
-        <div class="demo">
-            <div data-bind="expander: {expanded: true}">
-                <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-<pre>
-&lt;div data-bind=&quot;expander: {<span class="call-out">expanded: false</span>}&quot;&gt;
-    ...
-&lt;/div&gt;
-</pre>
-        <div class="demo">
-            <div data-bind="expander: {expanded: false}">
-                <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
-            </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 top10">
+        <div data-bind="expander: {accordion: myAccordion, template: 'tmpl-top-top10'}, with: {title: 'Top 10 Cars'}">
+            <!-- ko template: 'tmpl-top-10-cars' --><!-- /ko -->
         </div>
     </div>
 </div>
 
-<h3>expanded as an observable</h3>
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 top10">
+        <div data-bind="expander: {accordion: myAccordion, template: 'tmpl-top-top10'}, with: {title: 'Top 10 Songs'}">
+            <!-- ko template: 'tmpl-top-10-songs' --><!-- /ko -->
+        </div>
+    </div>
+</div>
 
-<p>If you use Knockout observable boolean for the expanded property, then you can control expand and collapse actions by that observable.</p>
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 top10">
+        <div data-bind="expander: {accordion: myAccordion, template: 'tmpl-top-top10'}, with: {title: 'Top 10 Movies'}">
+            <!-- ko template: 'tmpl-top-10-movies' --><!-- /ko -->
+        </div>
+    </div>
+</div>
 
-<p>The expander listens for changes to the expander observable. When set to true, it will expand; when set to false, it will collapse.</p>
+<h2>animate</h2>
+
+<p>Sets the expand and collapse animation. Uses jQuery animations. Include jQuery UI for more advanced animations.</p>
+
+<p>By default, animation is &quot;swing&quot; at 400ms.</p>
 
 <pre>
-&lt;script type=&quot;text/javascript&quot;&gt;
-    var viewModel = {
-        <span class="call-out">expanded</span>: ko.observable(false),
-        expand: function () {
-            this.expanded(true);
-        },
-        collapse: function () {
-            this.expanded(false);
-        }
-    };
-
-    ko.applyBindings(viewModel);
-&lt;/script&gt;
-</pre>
-
-<pre>
-&lt;div data-bind=&quot;expander: {expanded: <span class="call-out">expanded</span>}&quot;&gt;
+&lt;div class=&quot;demo&quot; data-bind=&quot;expander: {animate: { duration: 1000, easing: 'easeOutBounce'}}&quot;&gt;
     ...
 &lt;/div&gt;
-&lt;a href=&quot;#&quot; data-bind=&quot;click: expand, visible: !expanded()&quot;&gt;Expand&lt;/a&gt;
-&lt;a href=&quot;#&quot; data-bind=&quot;click: collapse, visible: expanded()&quot;&gt;Collapse&lt;/a&gt;
 </pre>
 
-<div class="demo" data-bind="with: expandedExample">
-    <div data-bind="expander: {expanded: expanded}">
-        <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
-    </div>
-    <a href="#" data-bind="click: expand, visible: !expanded()">Expand</a>
-    <a href="#" data-bind="click: collapse, visible: expanded()">Collapse</a>
-</div>
-
-<h3>expander extender</h3>
-
-<p>You can use the expander extender to add the &quot;expanded&quot; field and &quot;expand&quot;, &quot;collapse&quot;, and &quot;toggle&quot; functions to your view model.</p>
-<p>Pass true to initially expand the content; false to initially collapse the content.</p>
-
-<pre>
-&lt;script type=&quot;text/javascript&quot;&gt;
-    var viewModel = ko.observable({})<span class="call-out">.extend({expander: false})</span>;
-
-    ko.applyBindings(viewModel);
-&lt;/script&gt;
-</pre>
-
-<pre>
-&lt;div class=&quot;demo&quot; data-bind=&quot;with: extenderExample&quot;&gt;
-    &lt;div data-bind=&quot;expander: {expanded: expanded}&quot;&gt;
-        ...
-    &lt;/div&gt;
-    &lt;a href=&quot;#&quot; data-bind=&quot;click: expand, visible: !expanded()&quot;&gt;Expand&lt;/a&gt;
-    &lt;a href=&quot;#&quot; data-bind=&quot;click: collapse, visible: expanded()&quot;&gt;Collapse&lt;/a&gt;
-&lt;/div&gt;
-</pre>
-
-<div class="demo" data-bind="with: extenderExample">
-    <div data-bind="expander: {expanded: expanded}">
-        <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
-    </div>
-    <a href="#" data-bind="click: expand, visible: !expanded()">Expand</a>
-    <a href="#" data-bind="click: collapse, visible: expanded()">Collapse</a>
-</div>
-
-<h2>Toggle control</h2>
-
-<p>
-    The expander binding will:
-<ul>
-    <li>expand and collapse the contents of the <span class="call-out">data-expander-collapse</span> flagged element
-    </li>
-    <li>bind the toggle click event to the <span class="call-out">data-expander-toggle</span> flagged element</li>
-</ul>
-
-<pre>
-&lt;div data-bind=&quot;expander&quot;&gt;
-    &lt;div data-expander-content&gt;
-        ... contents to expand ...
-    &lt;/div&gt;
-    &lt;div data-expander-toggles&gt;
-        &lt;a href=&quot;#&quot; data-expander-toggle&gt;Toggle&lt;/a&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-</pre>
-
-<div class="demo" data-bind="expander">
-    <div data-expander-content>
-        <div data-bind="template: 'tmpl-example-contents'"></div>
-    </div>
-    <div data-expander-toggles>
-        <a href="#" data-expander-toggle>Toggle</a>
-    </div>
-</div>
-
-<h2>Expand and collapse controls</h2>
-
-<p>
-    The expander binding will:
-<ul>
-    <li>bind the expand click event to the <span class="call-out">data-expander-expand</span> flagged element</li>
-    <li>bind the collapse click event to the <span class="call-out">data-expander-collapse</span> flagged element
-    </li>
-</ul>
-
-<pre>
-&lt;div class=&quot;demo&quot; data-bind=&quot;expander&quot;&gt;
-    &lt;div data-expander-content&gt;
-        ... contents to expand ...
-    &lt;/div&gt;
-    &lt;div data-expander-toggles&gt;
-        &lt;a href=&quot;#&quot; data-expander-expand&gt;Expand&lt;/a&gt;
-        &lt;a href=&quot;#&quot; data-expander-collapse&gt;Collapse&lt;/a&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-</pre>
-
-<div class="demo" data-bind="expander">
+<div class="demo" data-bind="expander: {collapsedHeight: 60, animate: { duration: 1000, easing: 'easeOutBounce'}}">
     <div data-expander-content>
         <div data-bind="template: 'tmpl-example-contents'"></div>
     </div>
@@ -220,7 +121,7 @@
     </div>
 </div>
 
-<h3>Collapsing to an element</h3>
+<h3>collapsing to an element</h3>
 
 <p>Instead of a fixed pixel height, you can also set the collapsed height to the top of an element inside the
     content.
@@ -309,7 +210,6 @@
     </div>
 </div>
 
-
 <h3>tolerance</h3>
 
 <p>Tolerance is the number of pixels that the content height must exceed beyond collapsedHeight before toggles show.
@@ -367,33 +267,130 @@
     </div>
 </div>
 
-<h2>animate</h2>
+<h2>data-expander-collapse</h2>
 
-<p>Sets the expand and collapse animation. Uses jQuery animations. Include jQuery UI for more advanced animations.</p>
+<h2>data-expander-content</h2>
 
-<p>By default, animation is &quot;swing&quot; at 400ms.</p>
+<h2>data-expander-expand</h2>
 
+<h2>data-expander-toggle</h2>
+
+<h2>data-expander-toggles</h2>
+
+<h2>expanded</h2>
+
+<p>Determines if the contents initially show expanded or collapsed. If true, the contents will initially show expanded;
+    if false, the contents initially show collapsed.</p>
+
+<p>Accepts booleans and Knockout observable booleans. Passing a Knockout observable boolean is preferable if you want to
+    be able to control expand and collapse actions by that observable.</p>
+
+<div class="row">
+    <div class="col-sm-6">
 <pre>
-&lt;div class=&quot;demo&quot; data-bind=&quot;expander: {animate: { duration: 1000, easing: 'easeOutBounce'}}&quot;&gt;
+&lt;div data-bind=&quot;expander: {<span class="call-out">expanded: true}</span>&quot;&gt;
     ...
 &lt;/div&gt;
 </pre>
+        <div class="demo">
+            <div data-bind="expander: {expanded: true}">
+                <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+<pre>
+&lt;div data-bind=&quot;expander: {<span class="call-out">expanded: false</span>}&quot;&gt;
+    ...
+&lt;/div&gt;
+</pre>
+        <div class="demo">
+            <div data-bind="expander: {expanded: false}">
+                <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="demo" data-bind="expander: {collapsedHeight: 60, animate: { duration: 1000, easing: 'easeOutBounce'}}">
-    <div data-expander-content>
-        <div data-bind="template: 'tmpl-example-contents'"></div>
+<h3>expanded as an observable</h3>
+
+<p>If you use Knockout observable boolean for the expanded property, then you can control expand and collapse actions by
+    that observable.</p>
+
+<p>The expander listens for changes to the expander observable. When set to true, it will expand; when set to false, it
+    will collapse.</p>
+
+<pre>
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var viewModel = {
+        <span class="call-out">expanded</span>: ko.observable(false),
+        expand: function () {
+            this.expanded(true);
+        },
+        collapse: function () {
+            this.expanded(false);
+        }
+    };
+
+    ko.applyBindings(viewModel);
+&lt;/script&gt;
+</pre>
+
+<pre>
+&lt;div data-bind=&quot;expander: {expanded: <span class="call-out">expanded</span>}&quot;&gt;
+    ...
+&lt;/div&gt;
+&lt;a href=&quot;#&quot; data-bind=&quot;click: expand, visible: !expanded()&quot;&gt;Expand&lt;/a&gt;
+&lt;a href=&quot;#&quot; data-bind=&quot;click: collapse, visible: expanded()&quot;&gt;Collapse&lt;/a&gt;
+</pre>
+
+<div class="demo" data-bind="with: expandedExample">
+    <div data-bind="expander: {expanded: expanded}">
+        <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
     </div>
-    <div data-expander-toggles>
-        <a href="#" data-expander-expand>Expand</a>
-        <a href="#" data-expander-collapse>Collapse</a>
+    <a href="#" data-bind="click: expand, visible: !expanded()">Expand</a>
+    <a href="#" data-bind="click: collapse, visible: expanded()">Collapse</a>
+</div>
+
+<h3>expander extender</h3>
+
+<p>You can use the expander extender to add the &quot;expanded&quot; field and &quot;expand&quot;, &quot;collapse&quot;,
+    and &quot;toggle&quot; functions to your view model.</p>
+
+<p>Pass true to initially expand the content; false to initially collapse the content.</p>
+
+<pre>
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var viewModel = ko.observable({})<span class="call-out">.extend({expander: false})</span>;
+
+    ko.applyBindings(viewModel);
+&lt;/script&gt;
+</pre>
+
+<pre>
+&lt;div class=&quot;demo&quot; data-bind=&quot;with: extenderExample&quot;&gt;
+    &lt;div data-bind=&quot;expander: {expanded: expanded}&quot;&gt;
+        ...
+    &lt;/div&gt;
+    &lt;a href=&quot;#&quot; data-bind=&quot;click: expand, visible: !expanded()&quot;&gt;Expand&lt;/a&gt;
+    &lt;a href=&quot;#&quot; data-bind=&quot;click: collapse, visible: expanded()&quot;&gt;Collapse&lt;/a&gt;
+&lt;/div&gt;
+</pre>
+
+<div class="demo" data-bind="with: extenderExample">
+    <div data-bind="expander: {expanded: expanded}">
+        <!-- ko template: 'tmpl-example-contents' --><!-- /ko -->
     </div>
+    <a href="#" data-bind="click: expand, visible: !expanded()">Expand</a>
+    <a href="#" data-bind="click: collapse, visible: expanded()">Collapse</a>
 </div>
 
 <h2>template</h2>
 
 <p>Specifies a custom expander template.</p>
 
-<p>The expander binding will transclude the contents of the expander element into the template content, inside <span class="call-out">data-expander-content</span> tagged element.</p>
+<p>The expander binding will transclude the contents of the expander element into the template content, inside <span
+        class="call-out">data-expander-content</span> tagged element.</p>
 
 <p>For instance:
 </p>
@@ -451,211 +448,19 @@
 
     <div class="col-xs-12 col-sm-6 col-md-4 top10">
         <div data-bind="expander: {template: 'tmpl-top-top10', collapsedHeight: 100}, with: {title: 'Top 10 Cars'}">
-            <ol>
-                <li>Audi A6/S6/A7</li>
-                <li>BMW 3-/4-Series</li>
-                <li>Cadillac CTS</li>
-                <li>Chevrolet Corvette Stingray</li>
-                <li>Ford Fiesta ST</li>
-                <li>Honda Accord</li>
-                <li>Mazda 3</li>
-                <li>Mazda 6</li>
-                <li>Porsche Boxster/Cayman</li>
-                <li>Volkswagen Golf/GTI</li>
-            </ol>
+            <!-- ko template: 'tmpl-top-10-cars'--><!-- /ko -->
         </div>
     </div>
 
     <div class="col-xs-12 col-sm-6 col-md-4 top10">
         <div data-bind="expander: {template: 'tmpl-top-top10', collapsedHeight: 100}, with: {title: 'Top 10 Songs'}">
-            <ol>
-                <li>Rude</li>
-                <li>Fancy</li>
-                <li>Stay With Me</li>
-                <li>Am I Wrong</li>
-                <li>Problem</li>
-                <li>Match</li>
-                <li>Latch</li>
-                <li>All Of Me</li>
-                <li>Chandelier</li>
-                <li>Summer</li>
-            </ol>
+            <!-- ko template: 'tmpl-top-10-songs'--><!-- /ko -->
         </div>
     </div>
 
     <div class="col-xs-12 col-sm-6 col-md-4 top10">
         <div data-bind="expander: {template: 'tmpl-top-top10', collapsedHeight: 100}, with: {title: 'Top 10 Movies'}">
-            <ol>
-                <li>The Shawshank Redemption</li>
-                <li>The Godfather</li>
-                <li>The Godfather: Part II</li>
-                <li>The Dark Knight</li>
-                <li>Pulp Fiction</li>
-                <li>The Good, the Bad, and the Ugly</li>
-                <li>Schindler's List</li>
-                <li>12 Angry Men</li>
-                <li>The Lord of the Rings: The Return of the King</li>
-                <li>Fight Club</li>
-            </ol>
-        </div>
-    </div>
-</div>
-
-<h2>Nesting</h2>
-<pre>
-&lt;div data-bind=&quot;<span class="call-out">expander</span>: {template: 'tmpl-top-top10'}, with: {title: 'Top 10 Cars'}&quot;&gt;
-    &lt;div data-bind=&quot;<span class="call-out">expander</span>: {template: 'tmpl-expander-simple', collapsedHeight: 100}&quot;&gt;
-        &lt;ol&gt;
-            &lt;li&gt;Audi A6/S6/A7&lt;/li&gt;
-            &lt;li&gt;BMW 3-/4-Series&lt;/li&gt;
-            &lt;li&gt;Cadillac CTS&lt;/li&gt;
-            &lt;li&gt;Chevrolet Corvette Stingray&lt;/li&gt;
-            &lt;li&gt;Ford Fiesta ST&lt;/li&gt;
-            &lt;li&gt;Honda Accord&lt;/li&gt;
-            &lt;li&gt;Mazda 3&lt;/li&gt;
-            &lt;li&gt;Mazda 6&lt;/li&gt;
-            &lt;li&gt;Porsche Boxster/Cayman&lt;/li&gt;
-            &lt;li&gt;Volkswagen Golf/GTI&lt;/li&gt;
-        &lt;/ol&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</pre>
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 top10">
-        <div data-bind="expander: {template: 'tmpl-top-top10'}, with: {title: 'Top 10 Cars'}">
-            <div data-bind="expander: {template: 'tmpl-expander-simple', collapsedHeight: 100}">
-                <ol>
-                    <li>Audi A6/S6/A7</li>
-                    <li>BMW 3-/4-Series</li>
-                    <li>Cadillac CTS</li>
-                    <li>Chevrolet Corvette Stingray</li>
-                    <li>Ford Fiesta ST</li>
-                    <li>Honda Accord</li>
-                    <li>Mazda 3</li>
-                    <li>Mazda 6</li>
-                    <li>Porsche Boxster/Cayman</li>
-                    <li>Volkswagen Golf/GTI</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 top10">
-        <div data-bind="expander: {template: 'tmpl-top-top10', animate: { duration: 1000, easing: 'easeOutBounce'}}, with: {title: 'Top 10 Songs'}">
-            <div data-bind="expander: {template: 'tmpl-expander-simple', collapsedHeight: 100, animate: { duration: 1000, easing: 'easeOutBounce'}}">
-                <ol>
-                    <li>Rude</li>
-                    <li>Fancy</li>
-                    <li>Stay With Me</li>
-                    <li>Am I Wrong</li>
-                    <li>Problem</li>
-                    <li>Match</li>
-                    <li>Latch</li>
-                    <li>All Of Me</li>
-                    <li>Chandelier</li>
-                    <li>Summer</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 top10">
-        <div data-bind="expander: {template: 'tmpl-top-top10'}, with: {title: 'Top 10 Movies'}">
-            <div data-bind="expander: {template: 'tmpl-expander-simple', collapsedHeight: 100}">
-                <ol>
-                    <li>The Shawshank Redemption</li>
-                    <li>The Godfather</li>
-                    <li>The Godfather: Part II</li>
-                    <li>The Dark Knight</li>
-                    <li>Pulp Fiction</li>
-                    <li>The Good, the Bad, and the Ugly</li>
-                    <li>Schindler's List</li>
-                    <li>12 Angry Men</li>
-                    <li>The Lord of the Rings: The Return of the King</li>
-                    <li>Fight Club</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<h2>Accordion</h2>
-
-<p>Use the accordion parameter to group expanders into an accordion. When one expander is expanded, the others will
-    collapse.</p>
-
-<p>The accordion value should be an empty Knockout observable.</p>
-
-<pre>
-&lt;div class=&quot;row&quot;&gt;
-    &lt;div data-bind=&quot;expander: <span class="call-out">{accordion: myAccordion}</span>&quot;&gt;
-       ...
-    &lt;/div&gt;
-    &lt;div data-bind=&quot;expander: <span class="call-out">{accordion: myAccordion}</span>&quot;&gt;
-       ...
-    &lt;/div&gt;
-    &lt;div data-bind=&quot;expander: <span class="call-out">{accordion: myAccordion}</span>&quot;&gt;
-       ...
-    &lt;/div&gt;
-&lt;/div&gt;
-</pre>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 top10">
-        <div data-bind="expander: {accordion: myAccordion, template: 'tmpl-top-top10'}, with: {title: 'Top 10 Cars'}">
-            <ol>
-                <li>Audi A6/S6/A7</li>
-                <li>BMW 3-/4-Series</li>
-                <li>Cadillac CTS</li>
-                <li>Chevrolet Corvette Stingray</li>
-                <li>Ford Fiesta ST</li>
-                <li>Honda Accord</li>
-                <li>Mazda 3</li>
-                <li>Mazda 6</li>
-                <li>Porsche Boxster/Cayman</li>
-                <li>Volkswagen Golf/GTI</li>
-            </ol>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 top10">
-        <div data-bind="expander: {accordion: myAccordion, template: 'tmpl-top-top10'}, with: {title: 'Top 10 Songs'}">
-            <ol>
-                <li>Rude</li>
-                <li>Fancy</li>
-                <li>Stay With Me</li>
-                <li>Am I Wrong</li>
-                <li>Problem</li>
-                <li>Match</li>
-                <li>Latch</li>
-                <li>All Of Me</li>
-                <li>Chandelier</li>
-                <li>Summer</li>
-            </ol>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 top10">
-        <div data-bind="expander: {accordion: myAccordion, template: 'tmpl-top-top10'}, with: {title: 'Top 10 Movies'}">
-            <ol>
-                <li>The Shawshank Redemption</li>
-                <li>The Godfather</li>
-                <li>The Godfather: Part II</li>
-                <li>The Dark Knight</li>
-                <li>Pulp Fiction</li>
-                <li>The Good, the Bad, and the Ugly</li>
-                <li>Schindler's List</li>
-                <li>12 Angry Men</li>
-                <li>The Lord of the Rings: The Return of the King</li>
-                <li>Fight Club</li>
-            </ol>
+            <!-- ko template: 'tmpl-top-10-movies'--><!-- /ko -->
         </div>
     </div>
 </div>
@@ -697,6 +502,50 @@
         is a really big element!</p>
 </script>
 
+<script id="tmpl-top-10-songs" type="text/html">
+    <ol>
+        <li>Rude</li>
+        <li>Fancy</li>
+        <li>Stay With Me</li>
+        <li>Am I Wrong</li>
+        <li>Problem</li>
+        <li>Match</li>
+        <li>Latch</li>
+        <li>All Of Me</li>
+        <li>Chandelier</li>
+        <li>Summer</li>
+    </ol>
+</script>
+
+<script id="tmpl-top-10-cars" type="text/html">
+    <ol>
+        <li>Audi A6/S6/A7</li>
+        <li>BMW 3-/4-Series</li>
+        <li>Cadillac CTS</li>
+        <li>Chevrolet Corvette Stingray</li>
+        <li>Ford Fiesta ST</li>
+        <li>Honda Accord</li>
+        <li>Mazda 3</li>
+        <li>Mazda 6</li>
+        <li>Porsche Boxster/Cayman</li>
+        <li>Volkswagen Golf/GTI</li>
+    </ol>
+</script>
+
+<script id="tmpl-top-10-movies" type="text/html">
+    <ol>
+        <li>The Shawshank Redemption</li>
+        <li>The Godfather</li>
+        <li>The Godfather: Part II</li>
+        <li>The Dark Knight</li>
+        <li>Pulp Fiction</li>
+        <li>The Good, the Bad, and the Ugly</li>
+        <li>Schindler's List</li>
+        <li>12 Angry Men</li>
+        <li>The Lord of the Rings: The Return of the King</li>
+        <li>Fight Club</li>
+    </ol>
+</script>
 
 <script type="text/javascript">
     ko.applyBindings({
