@@ -10,6 +10,7 @@ module.exports = function (grunt) {
                 "	License:		MIT (http://opensource.org/licenses/mit-license.php)		\n" +
                 "																				\n" +
                 "	Description:	KnockoutJS binding to expand and collapse elements.			\n" +
+                "	Version:	    <%= pkg.version %>                              		   	\n" +
                 "===============================================================================\n*/\n"
         },
         uglify: {

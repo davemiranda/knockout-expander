@@ -20,7 +20,7 @@
     }
 }(function (ko) {
 
-    function Expander(element, config) {
+    function Expander(element, config, bindingContext) {
         var expander = this,
             $expander = $(element),
             $content = null,
@@ -86,11 +86,20 @@
             }, config.animate);
         }
 
-        if (config.template) {
-            // Transclude the innerHTML of the expander element into the requested template's data-expander-content element.
-            var innerHTML = element.innerHTML;
-            $expander.html($('#' + config.template).html());
-            $expander.find('[data-expander-content]').eq(0).html(innerHTML);
+        var template = config.template;
+        if (template) {
+            var isTemplateObject = typeof template === 'object';
+            var templateName = isTemplateObject ? template.name : template;
+            if (typeof templateName === 'string') {
+                // Transclude the innerHTML of the expander element into the requested template's data-expander-content element.
+                var innerHTML = element.innerHTML;
+                $expander.html($('#' + templateName).html());
+                $expander.find('[data-expander-content]').eq(0).html(innerHTML);
+
+                if (isTemplateObject) {
+                    $.extend(true, bindingContext, template.data);
+                }
+            }
         }
 
         config.accordion.subscribe(function(expanded) {
@@ -160,14 +169,14 @@
                 $toggles.hide();
             }
         };
+
+        bindingContext.expanded = config.expanded;
     }
 
     ko.bindingHandlers.expander = {
-        init: function (element, valueAccessor) {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var config = valueAccessor() || {};
-
-            var expander = new Expander(element, config);
-
+            var expander = new Expander(element, config, bindingContext);
             setTimeout(function () {
                 if (expander.elementReady) {
                     expander.elementReady();
